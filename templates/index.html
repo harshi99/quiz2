@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>City Search</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        h1 ,h2,h3,h4{
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        form {
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        input[type="number"] {
+            padding: 5px;
+        }
+
+        button {
+            padding: 5px 10px;
+        }
+
+        
+    </style>
+</head>
+<body>
+    <h1>Harshitha Gokanakonda </h1>
+    <h3>ID:1001949798</h3>
+       <h1>City Information</h1>
+        <form method="POST" action="/">
+            <label for="city">Enter a City:</label>
+            <input type="text" name="city" id="city" required>
+            <button type="submit">Submit</button>
+        </form>
+        <form method="POST" action="/bounding_box">
+            <h2>Specify Bounding Box</h2>
+            <label for="min_latitude">Minimum Latitude:</label>
+            <input type="text" name="min_latitude" required>
+            <br>
+            <label for="min_longitude">Minimum Longitude:</label>
+            <input type="text" name="min_longitude" required>
+            <br>
+            <label for="max_latitude">Maximum Latitude:</label>
+            <input type="text" name="max_latitude" required>
+            <br>
+            <label for="max_longitude">Maximum Longitude:</label>
+            <input type="text" name="max_longitude" required>
+            <br>
+            <button type="submit">Search</button>
+        </form>
+    
+        <h2>Add a City</h2>
+        <form action="/add_city" method="post">
+                <label for="city">City:</label>
+                <input type="text" id="city" name="city" required><br>
+        
+                <label for="state">State:</label>
+                <input type="text" id="state" name="state" required><br>
+        
+                <label for="population">Population:</label>
+                <input type="text" id="population" name="population" required><br>
+        
+                <label for="latitude">Latitude:</label>
+                <input type="text" id="latitude" name="latitude" required><br>
+        
+                <label for="longitude">Longitude:</label>
+                <input type="text" id="longitude" name="longitude" required><br>
+        
+                <input type="submit" value="Add City">
+        </form>
+        
+        <h2>Remove a City</h2>
+            <form action="/remove_city" method="post">
+                <label for="remove_city">City:</label>
+                <input type="text" id="remove_city" name="city" required><br>
+        
+                <label for="remove_state">State:</label>
+                <input type="text" id="remove_state" name="state" required><br>
+        
+                <input type="submit" value="Remove City">
+        </form>
+        <form action="/increment_population" method="POST">
+        <h2>Increment Population</h2>
+        <label for="min_latitude">Minimum Latitude:</label>
+        <input type="text" name="min_latitude" required>
+        <br>
+        <label for="min_longitude">Minimum Longitude:</label>
+        <input type="text" name="min_longitude" required>
+        <br>
+        <label for="max_latitude">Maximum Latitude:</label>
+        <input type="text" name="max_latitude" required>
+        <br>
+        <label for="max_longitude">Maximum Longitude:</label>
+        <input type="text" name="max_longitude" required>
+        <br>
+        <label for="state_name">State Name:</label>
+        <input type="text" name="state_name">
+        <br>
+        <label for="min_population">Minimum Population:</label>
+        <input type="text" name="min_population" required>
+        <br>
+        <label for="max_population">Maximum Population:</label>
+        <input type="text" name="max_population" required>
+        <br>
+        <label for="increment">Increment:</label>
+        <input type="text" name="increment" required>
+        <br>
+        <input type="submit" value="Increment Population">
+    </form>
+
+        {% if cities %}
+        <h2>Cities within Bounding Box:</h2>
+        <table>
+            <tr>
+                <th>City</th>
+                <th>State</th>
+                <th>Population</th>
+                <th>Latitude</th>
+                <th>Longitude</th>
+            </tr>
+            {% for city in cities %}
+                <tr>
+                    <td>{{ city['City'] }}</td>
+                    <td>{{ city['State'] }}</td>
+                    <td>{{ city['Population'] }}</td>
+                    <td>{{ city['lat'] }}</td>
+                    <td>{{ city['lon'] }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% endif %}
+    
+        {% if selected_city %}
+            <h2>Selected City:</h2>
+            <p>City: {{ selected_city.City }}</p>
+            <p>State: {{ selected_city.State }}</p>
+            <p>Population: {{ selected_city.Population }}</p>
+            <p>Latitude: {{ selected_city.lat }}</p>
+            <p>Longitude: {{ selected_city.lon }}</p>
+        {% endif %}
+    
+        {% if nearby_cities %}
+            <h2>Nearby Cities:</h2>
+            <ul>
+                {% for city in nearby_cities %}
+                    <li>
+                        <p>City: {{ city.City }}</p>
+                        <p>State: {{ city.State }}</p>
+                        <p>Population: {{ city.Population }}</p>
+                        <p>Latitude: {{ city.lat }}</p>
+                        <p>Longitude: {{ city.lon }}</p>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+        {% if modified_cities %}
+        <h2>Modified Cities</h2>
+        <table>
+            <tr>
+                <th>City</th>
+                <th>State</th>
+                <th>Population</th>
+                <th>Latitude</th>
+                <th>Longitude</th>
+            </tr>
+            {% for city in modified_cities %}
+            <tr>
+                <td>{{ city['City'] }}</td>
+                <td>{{ city['State'] }}</td>
+                <td>{{ city['Population'] }}</td>
+                <td>{{ city['lat'] }}</td>
+                <td>{{ city['lon'] }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+        <p>Total Modified Cities: {{ count }}</p>
+    {% endif %}
+   
+    
+</body>
+</html>
